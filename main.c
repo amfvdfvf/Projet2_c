@@ -25,7 +25,7 @@ static void activate(GtkApplication *app, gpointer user_data) {
     g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), NULL);
     gtk_box_append(GTK_BOX(box), button);
 
-    // Créer le deuxième bouton
+    // dCréer le deuxième bouton
     GtkWidget *button2 = gtk_button_new_with_label ("Cliquez‑moi slt !");
     gtk_widget_set_halign (button2, GTK_ALIGN_CENTER);
     gtk_widget_set_valign (button2, GTK_ALIGN_CENTER);

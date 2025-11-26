@@ -1,28 +1,19 @@
-# Compilateur
-CC = gcc
+CC= gcc
+CFLAGS= -Wall -std=c99 -Wextra -Werror $(shell pkg-config --cflags gtk4)
+LDFLAGS= $(shell pkg-config --libs gtk4)
+SRC = main.c params.c extract_parms.c
 
-# Nom de l'exécutable
-EXECUTABLE = app
+OBJ = $(SRC:.c=.o)
 
-# Cible par défaut
-all: $(EXECUTABLE)
+BIN= app
 
-# Compilation directe en une seule commande
-$(EXECUTABLE): main.c
-	$(CC) main.c -o $(EXECUTABLE) `pkg-config --cflags --libs gtk4`
-	@echo "✅ Compilation réussie ! Exécutable : $(EXECUTABLE)"
+all: $(BIN)
 
-# Lancer l'app
-run: $(EXECUTABLE)
-	./$(EXECUTABLE)
+$(BIN): $(OBJ)
+	$(CC) $^ -o $@ $(LDFLAGS)
 
-# Nettoyer
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
-	rm -f $(EXECUTABLE)
-
-rebuild: clean all
-
-.PHONY: all run clean rebuild
-
-# gcc main.c -o app `pkg-config --cflags --libs gtk4`
-# gcc  main.c params.c -o app `pkg-config --cflags --libs gtk4`
+	$(RM) $(OBJ) $(BIN)  

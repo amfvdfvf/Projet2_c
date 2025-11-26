@@ -12,6 +12,7 @@ typedef struct {
 } SaveData;
 
 static void on_save_button_clicked(GtkWidget *widget, gpointer user_data) {
+    (void)widget;
     SaveData *data = (SaveData *)user_data;
     
     struct parms p = {0};
@@ -28,6 +29,7 @@ static void on_save_button_clicked(GtkWidget *widget, gpointer user_data) {
 }
 
 void button_parms(GtkWidget *widget, gpointer user_data) {
+    (void)widget;
     GtkApplication *app = GTK_APPLICATION(user_data);
 
     GtkWidget *new_window = gtk_application_window_new(app);
