@@ -1,7 +1,7 @@
 CC= gcc
 CFLAGS= -Wall -std=c99 -Wextra -Werror $(shell pkg-config --cflags gtk4)
 LDFLAGS= $(shell pkg-config --libs gtk4)
-SRC = main.c params.c extract_parms.c
+SRC = main.c params.c extract_parms.c addarticles.c addarticlestraitement.c 
 
 OBJ = $(SRC:.c=.o)
 

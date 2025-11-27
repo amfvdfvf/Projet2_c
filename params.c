@@ -3,7 +3,6 @@
 #include "params.h"
 #include "extract_parms.h"
 
-// Structure pour passer les données à la fonction callback
 typedef struct {
     GtkEntry *entry_height;
     GtkEntry *entry_width;
@@ -15,6 +14,7 @@ static void on_save_button_clicked(GtkWidget *widget, gpointer user_data) {
     (void)widget;
     SaveData *data = (SaveData *)user_data;
     
+
     struct parms p = {0};
     p.height = atoi(gtk_editable_get_text(GTK_EDITABLE(data->entry_height)));
     p.width = atoi(gtk_editable_get_text(GTK_EDITABLE(data->entry_width)));

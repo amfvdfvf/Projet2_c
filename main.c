@@ -1,15 +1,17 @@
 #include "params.h"
+#include "addarticles.h"
 #include <gtk/gtk.h>
-
 
 static int counter = 0;
 
 static void on_button_clicked(GtkWidget *widget, gpointer user_data) {
+    (void)user_data;
     counter++;
     gtk_button_set_label(GTK_BUTTON(widget), g_strdup_printf("Compteur: %d", counter));
 }
 
 static void activate(GtkApplication *app, gpointer user_data) {
+    (void)user_data;
     GtkWidget *window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "GTK 4 Example");
     gtk_window_set_default_size(GTK_WINDOW(window), 400, 300);
@@ -32,12 +34,18 @@ static void activate(GtkApplication *app, gpointer user_data) {
     g_signal_connect(button2, "clicked", G_CALLBACK(button_parms), app);
     gtk_box_append(GTK_BOX(box), button2);
 
+    GtkWidget *button3 = gtk_button_new_with_label ("Ajouter un articles");
+    gtk_widget_set_halign (button3, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign (button3, GTK_ALIGN_CENTER);
+    g_signal_connect(button3, "clicked", G_CALLBACK(button_add_articles), app);
+    gtk_box_append(GTK_BOX(box), button3);
 
-    gtk_widget_show(window);
+
+    gtk_window_present(GTK_WINDOW(window));
 }
 
 int main(int argc, char **argv) {
-    GtkApplication *app = gtk_application_new("com.example.GtkApp", G_APPLICATION_FLAGS_NONE);
+    GtkApplication *app = gtk_application_new("com.example.GtkApp", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
     int status = g_application_run(G_APPLICATION(app), argc, argv);
     g_object_unref(app);
