@@ -12,6 +12,7 @@ typedef struct {
     GtkWidget *window;
 } SaveData;
 
+
 void button_create_article(GtkWidget *widget, gpointer article_data){
     (void)widget;
     SaveData *data = (SaveData *)article_data;
@@ -34,6 +35,70 @@ void button_create_article(GtkWidget *widget, gpointer article_data){
 
 }
 
+void on_image_chosen(GObject *source, GAsyncResult *res, gpointer user_data) {
+    GtkPicture *picture = GTK_PICTURE(user_data);
+    GtkFileDialog *dialog = GTK_FILE_DIALOG(source);
+    GError *error = NULL;
+
+    GFile *file = gtk_file_dialog_open_finish(dialog, res, NULL);
+    if (!file) return;
+
+    gtk_picture_set_file(picture, file);
+
+    char *path_image = g_file_get_path(file);
+
+    printf("%s", path_image);
+
+    const char *dest_folder = "C:/users/ambro/Desktop/Projet2_c/images/";
+
+    if (g_mkdir_with_parents(dest_folder, 0755) != 0) {
+        printf("Erreur lors de la crea du dossier images\n");
+        g_object_unref(file);
+        return;
+    }
+
+    char name_image[100];
+    generate_random_string(name_image, 20);
+    strcat(name_image, ".png");
+    
+    //save le passe a un endroit pour le save en bdd est si pas de sauvegarde supprimer l'image
+
+
+    gchar *dest_path = g_build_filename(dest_folder, name_image, NULL);
+
+    GFile *dest = g_file_new_for_path(dest_path);
+    
+    g_file_copy(file, dest, G_FILE_COPY_OVERWRITE, NULL, NULL, NULL, &error);
+    
+    if (error) {
+        printf("Erreur copie image: %s\n", error->message);
+        g_error_free(error);
+    } else {
+        printf("Image copiée\n");
+    }
+
+    g_free(path_image);
+    g_free(dest_path);
+    g_object_unref(dest);
+    g_object_unref(file);
+
+}
+
+void on_button_clicked(GtkButton *button, gpointer user_data) {
+    GtkWindow *window = GTK_WINDOW(gtk_widget_get_root(GTK_WIDGET(button)));
+    GtkPicture *picture = GTK_PICTURE(user_data);
+
+    GtkFileDialog *dialog = gtk_file_dialog_new();
+
+    gtk_file_dialog_open(
+        dialog,
+        window,
+        NULL,  
+        on_image_chosen,
+        picture
+    );
+}
+
 
 void button_add_articles(GtkWidget *widget, gpointer user_data) {
     (void)widget;
@@ -52,6 +117,17 @@ void button_add_articles(GtkWidget *widget, gpointer user_data) {
     gtk_box_append(GTK_BOX(box), label);
 
     struct article p = {0};
+
+    GtkWidget *box_image = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    gtk_box_append(GTK_BOX(box), box_image);
+
+    GtkWidget *button = gtk_button_new_with_label("Choisir une image");
+    gtk_box_append(GTK_BOX(box_image), button);
+    GtkWidget *picture = gtk_picture_new();
+    gtk_picture_set_can_shrink(GTK_PICTURE(picture), TRUE);
+    gtk_box_append(GTK_BOX(box_image), picture);
+
+    g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), picture);
 
     //Nom       
     GtkWidget *label_nom= gtk_label_new("Nom produit :");
@@ -104,6 +180,21 @@ void button_add_articles(GtkWidget *widget, gpointer user_data) {
     gtk_box_append(GTK_BOX(box), dropdown);
 
     //faire le bouton de sauvegarde et recuperer les donnees plus tard
+
+     GtkWidget *save_button = gtk_button_new_with_label("Créer l'article");
+
+
+    SaveData *data = malloc(sizeof(SaveData));
+    data->entry_nom = GTK_ENTRY(entry_nom);
+    data->entry_id_produit = GTK_ENTRY(entry_id_produit);
+    data->entry_reference = GTK_ENTRY(entry_id_reference);
+    data->entry_alerte_min = GTK_ENTRY(entry_alerte_min);
+    data->entry_quantite = GTK_ENTRY(entry_quantite);
+    data->dropdown = GTK_DROP_DOWN(dropdown);
+    data->window = new_window;
+    
+    g_signal_connect(save_button, "clicked", G_CALLBACK(button_create_article), data);
+    gtk_box_append(GTK_BOX(box), save_button);
 
     GtkWidget *back_button = gtk_button_new_with_label("Retour");
     g_signal_connect_swapped(back_button, "clicked", G_CALLBACK(gtk_window_close), new_window);

@@ -18,5 +18,7 @@ void button_add_articles(GtkWidget *widget, gpointer user_data);
 //metre les fonction pour crée l'aticle et les verifications
 int veriAjoutarticle(struct article *a);
 
+void generate_random_string(char *str, int length);
+
 
 #endif // ADDARTICLES_H

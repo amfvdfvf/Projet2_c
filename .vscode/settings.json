@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "params.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "addarticles.h": "c"
     }
 }
