@@ -62,16 +62,16 @@ void updatefichier(char *filename, struct parms *p)
         strcpy(p->sound, "OFF");
     }
 
-    if (p->height <= 0) p->height = 1200;
-    if (p->width <= 0) p->width = 800;
+    if (p->height <= 0) p->height = 1024;
+    if (p->width <= 0) p->width = 1820;
 
     float ratio = (float)p->width / (float)p->height;
     printf("le ratio est de %f\n", ratio);
 
     if (ratio < 1.6f || ratio > 2.0f) {
         printf("pb ratio correction faite\n");
-        p->height = 1024;
-        p->width  = 1820;
+        p->height = 2160;
+        p->width  = 3840;
     }
 
     fprintf(f, "height= %d\n", p->height);

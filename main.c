@@ -1,4 +1,5 @@
 #include "params.h"
+#include "extract_parms.h"
 #include "addarticles.h"
 #include <gtk/gtk.h>
 
@@ -12,9 +13,13 @@ static void on_button_clicked(GtkWidget *widget, gpointer user_data) {
 
 static void activate(GtkApplication *app, gpointer user_data) {
     (void)user_data;
+    
+    struct parms p = {0};
+    read_config("parms.txt", &p);
+    
     GtkWidget *window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "GTK 4 Example");
-    gtk_window_set_default_size(GTK_WINDOW(window), 400, 300);
+    gtk_window_set_default_size(GTK_WINDOW(window), p.width, p.height);
 
     // Créer un conteneur box pour centrer les boutons
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
