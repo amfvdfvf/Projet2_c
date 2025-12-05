@@ -1,5 +1,6 @@
 #include <gtk/gtk.h>
 #include <string.h>
+#include "extract_parms.h"
 #include "addarticles.h"
 
 typedef struct {
@@ -104,10 +105,12 @@ void button_add_articles(GtkWidget *widget, gpointer user_data) {
     (void)widget;
     GtkApplication *app = GTK_APPLICATION(user_data);
 
+    struct parms parmssize = {0};
+    read_config("parms.txt", &parmssize);
+
     GtkWidget *new_window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(new_window), "Ajout d'articles");
-    gtk_window_set_default_size(GTK_WINDOW(new_window), 400, 300);
-
+    gtk_window_set_default_size(GTK_WINDOW(new_window), parmssize.width, parmssize.height);
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(box, GTK_ALIGN_CENTER);
