@@ -100,7 +100,7 @@ void create_page2(GtkWidget *box2) {
     // faire un limd de nb d'atice par page pour faire un pagination aussi c'est plus propre
     int nb_articles = sizeof(inventaire) / sizeof(inventaire[0]);
     for (int row = 0; row < nb_articles; row++) {
-        GtkWidget *label_img = gtk_label_new(inventaire[row].image_path);
+        GtkWidget *label_img = gtk_label_new(inventaire[row].image_path); // faire que l'image s'affiche dans un box est qu'il y est un trin de coul de l'iamge selon le stocke est la limit configurer 
         gtk_widget_set_hexpand(label_img, TRUE);
         GtkWidget *frame_img = gtk_frame_new(NULL);
         gtk_widget_set_hexpand(frame_img, TRUE);
