@@ -1,13 +1,9 @@
-# Compilateur
 CC = gcc
 
-# Nom de l'exécutable
 EXECUTABLE = app
 
-# Cible par défaut
 all: $(EXECUTABLE)
 
-# Compilation directe en une seule commande
 $(EXECUTABLE): main.c
 	$(CC) main.c -o $(EXECUTABLE) `pkg-config --cflags --libs gtk4`
 	@echo "✅ Compilation réussie ! Exécutable : $(EXECUTABLE)"
