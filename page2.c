@@ -83,9 +83,9 @@ void create_page2(GtkWidget *box2) {
     gtk_widget_set_margin_start(grid, 10);
     gtk_widget_set_margin_top(grid, 10);
 
-    const char *headers[] = { "Image", "Nom articles", "Quantité", "Modifier" };
+    const char *headers[] = { "Image", "Nom articles", "Quantité","Ajouter", "modifier", "Modifier" };
 
-    for (int col = 0; col < 4; col++) {
+    for (int col = 0; col < 6; col++) {
         GtkWidget *label = gtk_label_new(headers[col]);
         gtk_widget_set_hexpand(label, TRUE);
 
@@ -125,13 +125,34 @@ void create_page2(GtkWidget *box2) {
         gtk_widget_add_css_class(frame_qty, "cell");
         gtk_grid_attach(GTK_GRID(grid), frame_qty, 2, row + 1, 1, 1);
 
+        //ajouter un bouton plus
+
+        GtkWidget *btn_add = gtk_button_new_with_label("+");
+        gtk_widget_set_hexpand(btn_add, TRUE);
+        GtkWidget *frame_add = gtk_frame_new(NULL);
+        gtk_widget_set_hexpand(frame_add, TRUE);
+        gtk_frame_set_child(GTK_FRAME(frame_add), btn_add);
+        gtk_widget_add_css_class(frame_add, "cell");
+        gtk_grid_attach(GTK_GRID(grid), frame_add, 3, row + 1, 1, 1);
+
+        //ajotuer un bouton moins
+
+        GtkWidget *btn_sub = gtk_button_new_with_label("-");
+        gtk_widget_set_hexpand(btn_sub, TRUE);
+        GtkWidget *frame_sub = gtk_frame_new(NULL);
+        gtk_widget_set_hexpand(frame_sub, TRUE);
+        gtk_frame_set_child(GTK_FRAME(frame_sub), btn_sub);
+        gtk_widget_add_css_class(frame_sub, "cell");
+        gtk_grid_attach(GTK_GRID(grid), frame_sub, 4, row + 1, 1, 1);
+
+
         GtkWidget *btn_modify = gtk_button_new_with_label("Modifier");
         gtk_widget_set_hexpand(btn_modify, TRUE);
         GtkWidget *frame_btn = gtk_frame_new(NULL);
         gtk_widget_set_hexpand(frame_btn, TRUE);
         gtk_frame_set_child(GTK_FRAME(frame_btn), btn_modify); // faire que ca ajtoeu l'id de l'ari cocme ca ca fait un page personaliser pour modfier l'article
         gtk_widget_add_css_class(frame_btn, "cell");
-        gtk_grid_attach(GTK_GRID(grid), frame_btn, 3, row + 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), frame_btn, 5, row + 1, 1, 1);
     }
 
     gtk_box_append(GTK_BOX(box2), grid);
